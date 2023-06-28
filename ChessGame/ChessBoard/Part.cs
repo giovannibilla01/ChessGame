@@ -2,16 +2,16 @@
 
 namespace ChessGame.ChessBoard
 {
-    internal class Part
+    internal abstract class Part
     {
         public Position PositionPart { get; set; }
         public Color ColorPart { get; protected set; }
         public int AmountMove { get; protected set; }
         public Board BoardPart { get; protected set; }
 
-        public Part (Position positionPart, Color colorPart, Board boardPart)
+        public Part (Color colorPart, Board boardPart)
         {
-            PositionPart = positionPart;
+            PositionPart = null;
             ColorPart = colorPart;
             AmountMove = 0;
             BoardPart = boardPart;

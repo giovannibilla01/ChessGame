@@ -16,6 +16,11 @@
         public Part ChessPart(int row, int column) 
         {
             return _parts[row, column];
-        }    
+        }
+        public void PutPart (Part part, Position position)
+        {
+            _parts[position.Row, position.Column] = part;
+            part.PositionPart = position;
+        }
     }
 }
