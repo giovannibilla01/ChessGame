@@ -38,7 +38,17 @@ namespace ChessGame.ChessBoard
             _parts[position.Row, position.Column] = part;
             part.PositionPart = position;
         }
-
+        public Part RemovePart(Position position)
+        {
+            if (ChessPart(position) == null)
+            {
+                return null;
+            }
+            Part part = ChessPart(position);
+            part.PositionPart = null;
+            _parts[position.Row, position.Column] = null;
+            return part;
+        }
         public bool ValidPosition(Position position)
         {
             return position.Row < 0 || position.Row >= Row || position.Column < 0 || position.Column >= Columns ? false : true;

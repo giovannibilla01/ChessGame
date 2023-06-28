@@ -16,5 +16,9 @@ namespace ChessGame.ChessBoard
             AmountMove = 0;
             BoardPart = boardPart;
         }
+        public void IncreaseNumberOfMoves()
+        {
+            AmountMove++;
+        }
     }
 }

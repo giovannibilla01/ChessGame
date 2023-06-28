@@ -1,4 +1,5 @@
 ﻿using ChessGame.ChessBoard;
+using ChessGame.ChessLayer;
 
 namespace ChessGame
 {
@@ -22,6 +23,13 @@ namespace ChessGame
                 Console.WriteLine();
             }
             Console.WriteLine("  A B C D E F G H");
+        }
+        public static ChessPositionFrame ReadGamePosition()
+        {
+            string inputCommand = Console.ReadLine();
+            char column = inputCommand[0];
+            int row = int.Parse($"{inputCommand[1]}");
+            return new ChessPositionFrame(column, row);
         }
         public static void PrintPart(Part part)
         {
