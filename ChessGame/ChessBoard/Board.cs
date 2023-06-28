@@ -1,4 +1,6 @@
-﻿namespace ChessGame.ChessBoard
+﻿using ChessGame.ChessBoard.Exception;
+
+namespace ChessGame.ChessBoard
 {
     internal class Board
     {
@@ -17,10 +19,37 @@
         {
             return _parts[row, column];
         }
-        public void PutPart (Part part, Position position)
+
+        public Part ChessPart(Position position)
         {
+            return _parts[position.Row, position.Column];
+        }
+        public bool ExistenceOfPart(Position position)
+        {
+            ValidatePosition(position);
+            return ChessPart(position) != null;
+        }
+        public void PutPart(Part part, Position position)
+        {
+            if (ExistenceOfPart(position))
+            {
+                throw new ChessBoardException("There is already a part in this position");
+            }
             _parts[position.Row, position.Column] = part;
             part.PositionPart = position;
+        }
+
+        public bool ValidPosition(Position position)
+        {
+            return position.Row < 0 || position.Row >= Row || position.Column < 0 || position.Column >= Columns ? false : true;
+        }
+
+        public void ValidatePosition(Position position)
+        {
+            if (!ValidPosition(position))
+            {
+                throw new ChessBoardException("Invalid Position");
+            }
         }
     }
 }
