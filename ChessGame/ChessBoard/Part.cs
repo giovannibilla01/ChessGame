@@ -16,6 +16,7 @@ namespace ChessGame.ChessBoard
             AmountMove = 0;
             BoardPart = boardPart;
         }
+        public abstract bool[,] PossibleMoves();
         public void IncreaseNumberOfMoves()
         {
             AmountMove++;

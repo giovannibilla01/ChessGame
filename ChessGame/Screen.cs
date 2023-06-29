@@ -12,13 +12,30 @@ namespace ChessGame
                 Console.Write($"{8-rowIndex} ");
                 for (int columnsIndex = 0; columnsIndex < board.Columns; columnsIndex++)
                 {
-                    if (board.ChessPart(rowIndex, columnsIndex) == null)
+                    PrintPart(board.ChessPart(rowIndex, columnsIndex));
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  A B C D E F G H");
+        }
+        public static void PrintChessBoard(Board board, bool[,] possiblePositionsMatrix)
+        {
+            ConsoleColor originalBackground = Console.BackgroundColor;
+            ConsoleColor alternativeBackground = ConsoleColor.DarkGray;
+            for (int rowIndex = 0; rowIndex < board.Row; rowIndex++)
+            {
+                Console.Write($"{8 - rowIndex} ");
+                for (int columnsIndex = 0; columnsIndex < board.Columns; columnsIndex++)
+                {
+                    if (possiblePositionsMatrix[rowIndex, columnsIndex])
                     {
-                        Console.Write("- ");
+                        Console.BackgroundColor = alternativeBackground;
                     } else
                     {
-                        PrintPart(board.ChessPart(rowIndex, columnsIndex));
+                        Console.BackgroundColor = originalBackground;
                     }
+                    PrintPart(board.ChessPart(rowIndex, columnsIndex));
+                    Console.BackgroundColor = originalBackground;
                 }
                 Console.WriteLine();
             }
@@ -33,15 +50,23 @@ namespace ChessGame
         }
         public static void PrintPart(Part part)
         {
-            if (part.ColorPart == ChessBoard.Enum.Color.Black)
+            if (part == null)
             {
-                ConsoleColor systemColorOriginal = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{part} ");
-                Console.ForegroundColor = systemColorOriginal;
-            } else
+                Console.Write("- ");
+            }
+            else
             {
-                Console.Write($"{part} ");
+                if (part.ColorPart == ChessBoard.Enum.Color.Black)
+                {
+                    ConsoleColor systemColorOriginal = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"{part} ");
+                    Console.ForegroundColor = systemColorOriginal;
+                }
+                else
+                {
+                    Console.Write($"{part} ");
+                }
             }
         }
     }

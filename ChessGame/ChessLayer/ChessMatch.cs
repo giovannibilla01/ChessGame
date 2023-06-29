@@ -31,6 +31,7 @@ namespace ChessGame.ChessLayer
         {
             Board.PutPart(new Tower(Board, Color.White), new ChessPositionFrame('c', 1).ConvertToPosition());
             Board.PutPart(new Tower(Board, Color.White), new ChessPositionFrame('c', 2).ConvertToPosition());
+            Board.PutPart(new King(Board, Color.Black), new ChessPositionFrame('c', 8).ConvertToPosition());
         }
     }
 }
