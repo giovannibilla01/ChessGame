@@ -16,10 +16,29 @@ namespace ChessGame.ChessBoard
             AmountMove = 0;
             BoardPart = boardPart;
         }
-        public abstract bool[,] PossibleMoves();
         public void IncreaseNumberOfMoves()
         {
             AmountMove++;
         }
+        public bool TherePossibilityToMove() 
+        {
+            bool[,] possibility = PossibleMoves();
+            for (int rowIndex = 0; rowIndex < BoardPart.Row; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < BoardPart.Columns; columnIndex++)
+                {
+                    if (possibility[rowIndex, columnIndex])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool CanMoveTo(Position position)
+        {
+            return PossibleMoves()[position.Row, position.Column];
+        }
+        public abstract bool[,] PossibleMoves();
     }
 }

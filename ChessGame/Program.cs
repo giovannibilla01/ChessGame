@@ -10,18 +10,32 @@ try
 
     while (!chessMatch.Finished)
     {
-        Console.Clear();
-        Screen.PrintChessBoard(chessMatch.Board);
-        Console.WriteLine();
-        Console.Write("Origin: ");
-        Position origin = Screen.ReadGamePosition().ConvertToPosition();
-        bool[,] possiblePositionsMatrix = chessMatch.Board.ChessPart(origin).PossibleMoves();
-        Console.Clear();
-        Screen.PrintChessBoard(chessMatch.Board, possiblePositionsMatrix);
-        Console.WriteLine();
-        Console.Write("Destiny: ");
-        Position destiny = Screen.ReadGamePosition().ConvertToPosition();
-        chessMatch.PerformMovement(origin, destiny);
+        try
+        {
+            Console.Clear();
+            Screen.PrintChessBoard(chessMatch.Board);
+            Console.WriteLine();
+            Console.WriteLine($"Turno: {chessMatch.Shift}");
+            Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
+            Console.WriteLine();
+            Console.Write("Origin: ");
+            Position origin = Screen.ReadGamePosition().ConvertToPosition();
+            chessMatch.ValidateOriginPosition(origin);
+
+            bool[,] possiblePositionsMatrix = chessMatch.Board.ChessPart(origin).PossibleMoves();
+            Console.Clear();
+            Screen.PrintChessBoard(chessMatch.Board, possiblePositionsMatrix);
+            Console.WriteLine();
+            Console.Write("Destiny: ");
+            Position destiny = Screen.ReadGamePosition().ConvertToPosition();
+            chessMatch.ValidateDestinyPosition(origin, destiny);
+            chessMatch.Play(origin, destiny);
+        }
+        catch (ChessBoardException e)
+        {
+            Console.WriteLine(e.Message);
+            Console.ReadLine();
+        }
     }
 }
 catch (ChessBoardException e)
