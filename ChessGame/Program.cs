@@ -13,10 +13,9 @@ try
         try
         {
             Console.Clear();
-            Screen.PrintChessBoard(chessMatch.Board);
-            Console.WriteLine();
-            Console.WriteLine($"Turno: {chessMatch.Shift}");
-            Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
+            Screen.PrintChessMatch(chessMatch);
+            
+            
             Console.WriteLine();
             Console.Write("Origin: ");
             Position origin = Screen.ReadGamePosition().ConvertToPosition();

@@ -1,10 +1,42 @@
-﻿using ChessGame.ChessBoard;
+﻿using ChessGame.ChessBoard.Enum;
+using ChessGame.ChessBoard;
 using ChessGame.ChessLayer;
 
 namespace ChessGame
 {
     internal class Screen
     {
+        public static void PrintChessMatch(ChessMatch chessMatch)
+        {
+            PrintChessBoard(chessMatch.Board);
+            Console.WriteLine();
+            PrintCapturedParts(chessMatch);
+            Console.WriteLine();
+            Console.WriteLine($"Shift: {chessMatch.Shift}");
+            Console.WriteLine();
+            Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
+        }
+        public static void PrintCapturedParts(ChessMatch chessMatch)
+        {
+            Console.WriteLine("Captured parts:");
+            Console.Write("White: [ ");
+            PrintSet(chessMatch.CapturedParts(Color.White));
+            Console.Write("]");
+            Console.WriteLine();
+            Console.Write("Black: [ ");
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            PrintSet(chessMatch.CapturedParts(Color.Black));
+            Console.ForegroundColor = originalColor;
+            Console.Write("]");
+        }
+        public static void PrintSet(HashSet<Part> set)
+        {
+            foreach (Part part in set)
+            {
+                Console.Write($"{part} ");
+            }
+        }
         public static void PrintChessBoard(Board board)
         {
             for (int rowIndex = 0; rowIndex < board.Row; rowIndex++)
@@ -56,7 +88,7 @@ namespace ChessGame
             }
             else
             {
-                if (part.ColorPart == ChessBoard.Enum.Color.Black)
+                if (part.ColorPart == Color.Black)
                 {
                     ConsoleColor systemColorOriginal = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Blue;
