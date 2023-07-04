@@ -204,12 +204,41 @@ namespace ChessGame.ChessLayer
         }
         private void PutPartsInGame()
         {
-            PutNewParts('c', 1, new Tower(Board, Color.White));
-            PutNewParts('d', 1, new King(Board, Color.White));
-            PutNewParts('h', 7, new Tower(Board, Color.White));
+            PutNewParts('a', 1, new Rook(Board, Color.White));
+            PutNewParts('b', 1, new Knight(Board, Color.White));
+            PutNewParts('c', 1, new Bishop(Board, Color.White));
+            PutNewParts('d', 1, new Queen(Board, Color.White));
+            PutNewParts('e', 1, new King(Board, Color.White));
+            PutNewParts('f', 1, new Bishop(Board, Color.White));
+            PutNewParts('g', 1, new Knight(Board, Color.White));
+            PutNewParts('h', 1, new Rook(Board, Color.White));
+            
+            PutNewParts('a', 2, new Pawn(Board, Color.White));
+            PutNewParts('b', 2, new Pawn(Board, Color.White));
+            PutNewParts('c', 2, new Pawn(Board, Color.White));
+            PutNewParts('d', 2, new Pawn(Board, Color.White));
+            PutNewParts('e', 2, new Pawn(Board, Color.White));
+            PutNewParts('f', 2, new Pawn(Board, Color.White));
+            PutNewParts('g', 2, new Pawn(Board, Color.White));
+            PutNewParts('h', 2, new Pawn(Board, Color.White));
 
-            PutNewParts('b', 8, new Tower(Board, Color.Black));
-            PutNewParts('a', 8, new King(Board, Color.Black));
+            PutNewParts('a', 8, new Rook(Board, Color.Black));
+            PutNewParts('b', 8, new Knight(Board, Color.Black));
+            PutNewParts('c', 8, new Bishop(Board, Color.Black));
+            PutNewParts('d', 8, new Queen(Board, Color.Black));
+            PutNewParts('e', 8, new King(Board, Color.Black));
+            PutNewParts('f', 8, new Bishop(Board, Color.Black));
+            PutNewParts('g', 8, new Knight(Board, Color.Black));
+            PutNewParts('h', 8, new Rook(Board, Color.Black));
+
+            PutNewParts('a', 7, new Pawn(Board, Color.Black));
+            PutNewParts('b', 7, new Pawn(Board, Color.Black));
+            PutNewParts('c', 7, new Pawn(Board, Color.Black));
+            PutNewParts('d', 7, new Pawn(Board, Color.Black));
+            PutNewParts('e', 7, new Pawn(Board, Color.Black));
+            PutNewParts('f', 7, new Pawn(Board, Color.Black));
+            PutNewParts('g', 7, new Pawn(Board, Color.Black));
+            PutNewParts('h', 7, new Pawn(Board, Color.Black));
         }
     }
 }

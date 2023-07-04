@@ -4,10 +4,14 @@ using ChessGame.ChessBoard;
 
 namespace ChessGame.ChessLayer
 {
-    internal class Tower : Part
+    internal class Bishop : Part
     {
-        public Tower(Board board, Color color) : base(color, board)
+        public Bishop(Board board, Color color) : base(color, board)
         {
+        }
+        public override string ToString()
+        {
+            return "B";
         }
         private bool CanMove(Position position)
         {
@@ -20,8 +24,7 @@ namespace ChessGame.ChessLayer
 
             Position position = new(0, 0);
 
-            //Position North
-            position.SetValues(PositionPart.Row - 1, PositionPart.Column);
+            position.SetValues(PositionPart.Row -1, PositionPart.Column - 1);
             while (BoardPart.ValidPosition(position) && CanMove(position))
             {
                 possibleMovesMatrix[position.Row, position.Column] = true;
@@ -29,10 +32,10 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.Row --;
+                position.SetValues(position.Row - 1, position.Column - 1);
             }
-            //Position South
-            position.SetValues(PositionPart.Row + 1, PositionPart.Column);
+            
+            position.SetValues(PositionPart.Row - 1, PositionPart.Column + 1);
             while (BoardPart.ValidPosition(position) && CanMove(position))
             {
                 possibleMovesMatrix[position.Row, position.Column] = true;
@@ -40,10 +43,10 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.Row ++;
+                position.SetValues(position.Row - 1, position.Column + 1);
             }
-            //Position East
-            position.SetValues(PositionPart.Row, PositionPart.Column + 1);
+
+            position.SetValues(PositionPart.Row + 1, PositionPart.Column + 1);
             while (BoardPart.ValidPosition(position) && CanMove(position))
             {
                 possibleMovesMatrix[position.Row, position.Column] = true;
@@ -51,10 +54,10 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.Column ++;
+                position.SetValues(position.Row + 1, position.Column + 1);
             }
-            //Position West
-            position.SetValues(PositionPart.Row, PositionPart.Column - 1);
+
+            position.SetValues(PositionPart.Row + 1, PositionPart.Column - 1);
             while (BoardPart.ValidPosition(position) && CanMove(position))
             {
                 possibleMovesMatrix[position.Row, position.Column] = true;
@@ -62,13 +65,10 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.Column --;
+                position.SetValues(position.Row + 1, position.Column - 1);
             }
+
             return possibleMovesMatrix;
-        }
-        public override string ToString()
-        {
-            return "T";
         }
     }
 }
