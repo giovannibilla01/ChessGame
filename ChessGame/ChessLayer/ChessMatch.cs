@@ -62,8 +62,14 @@ namespace ChessGame.ChessLayer
             {
                 Check = false;
             }
-            Shift++;
-            ChangePlayer();
+            if (CheckmateTest(Adversary(CurrentPlayer)))
+            {
+                Finished = true;
+            } else
+            {
+                Shift++;
+                ChangePlayer();
+            }
         }
         public void ValidateOriginPosition(Position position)
         {
@@ -161,6 +167,36 @@ namespace ChessGame.ChessLayer
             }
             return false;
         }
+        public bool CheckmateTest(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach (Part part in InGameParts(color))
+            {
+                bool[,] matrix = part.PossibleMoves();
+                for (int rowIndex = 0; rowIndex < Board.Row; rowIndex++)
+                {
+                    for (int columnIndex = 0; columnIndex < Board.Columns; columnIndex++) 
+                    {
+                        if (matrix[rowIndex, columnIndex])
+                        {
+                            Position origin = part.PositionPart;
+                            Position destiny = new Position(rowIndex, columnIndex);
+                            Part capturedPartNow = PerformMovement(origin, destiny);
+                            bool checkTest = IsInCheck(color);
+                            UndoMove(origin, destiny, capturedPartNow);
+                            if (!checkTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
         public void PutNewParts(char column, int row, Part part)
         {
             Board.PutPart(part, new ChessPositionFrame(column, row).ConvertToPosition());
@@ -169,18 +205,11 @@ namespace ChessGame.ChessLayer
         private void PutPartsInGame()
         {
             PutNewParts('c', 1, new Tower(Board, Color.White));
-            PutNewParts('c', 2, new Tower(Board, Color.White));
-            PutNewParts('d', 2, new Tower(Board, Color.White));
-            PutNewParts('e', 2, new Tower(Board, Color.White));
-            PutNewParts('e', 1, new Tower(Board, Color.White));
             PutNewParts('d', 1, new King(Board, Color.White));
+            PutNewParts('h', 7, new Tower(Board, Color.White));
 
-            PutNewParts('c', 7, new Tower(Board, Color.Black));
-            PutNewParts('c', 8, new Tower(Board, Color.Black));
-            PutNewParts('d', 7, new Tower(Board, Color.Black));
-            PutNewParts('e', 7, new Tower(Board, Color.Black));
-            PutNewParts('e', 8, new Tower(Board, Color.Black));
-            PutNewParts('d', 8, new King(Board, Color.Black));
+            PutNewParts('b', 8, new Tower(Board, Color.Black));
+            PutNewParts('a', 8, new King(Board, Color.Black));
         }
     }
 }

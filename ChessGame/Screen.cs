@@ -13,11 +13,19 @@ namespace ChessGame
             PrintCapturedParts(chessMatch);
             Console.WriteLine();
             Console.WriteLine($"Shift: {chessMatch.Shift}");
-            Console.WriteLine();
-            Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
-            if (chessMatch.Check)
+            if (!chessMatch.Finished)
             {
-                Console.WriteLine("Check!");
+                Console.WriteLine();
+                Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
+                if (chessMatch.Check)
+                {
+                    Console.WriteLine("Check!");
+                }
+            } else
+            {
+                Console.WriteLine();
+                Console.WriteLine("~~ Checkmate! ~~");
+                Console.WriteLine($"Winner: {chessMatch.CurrentPlayer}");
             }
         }
         public static void PrintCapturedParts(ChessMatch chessMatch)
