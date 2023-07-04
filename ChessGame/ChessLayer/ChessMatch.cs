@@ -88,7 +88,7 @@ namespace ChessGame.ChessLayer
         }
         public void ValidateDestinyPosition(Position origin, Position destiny)
         {
-            if (!Board.ChessPart(origin).CanMoveTo(destiny))
+            if (!Board.ChessPart(origin).PossibleMovement(destiny))
             {
                 throw new ChessBoardException("Invalid target position!");
             }
