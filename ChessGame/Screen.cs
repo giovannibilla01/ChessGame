@@ -15,6 +15,10 @@ namespace ChessGame
             Console.WriteLine($"Shift: {chessMatch.Shift}");
             Console.WriteLine();
             Console.WriteLine($"Waiting for player: {chessMatch.CurrentPlayer}");
+            if (chessMatch.Check)
+            {
+                Console.WriteLine("Check!");
+            }
         }
         public static void PrintCapturedParts(ChessMatch chessMatch)
         {

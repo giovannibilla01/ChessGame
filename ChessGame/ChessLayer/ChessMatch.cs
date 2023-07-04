@@ -6,12 +6,13 @@ namespace ChessGame.ChessLayer
 {
     internal class ChessMatch
     {
+        private HashSet<Part> _parts = new HashSet<Part>();
+        private HashSet<Part> _captured = new HashSet<Part>();
         public Board Board { get; private set; }
         public int Shift { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool Finished { get; set; }
-        private HashSet<Part> _parts = new HashSet<Part>();
-        private HashSet<Part> _captured = new HashSet<Part>();
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -19,10 +20,11 @@ namespace ChessGame.ChessLayer
             Shift = 1;
             CurrentPlayer = Color.White;
             Finished = false;
+            Check = false;
             PutPartsInGame();
         }
 
-        public void PerformMovement(Position origin, Position destiny)
+        public Part PerformMovement(Position origin, Position destiny)
         {
             Part part = Board.RemovePart(origin);
             part.IncreaseNumberOfMoves();
@@ -32,13 +34,36 @@ namespace ChessGame.ChessLayer
             {
                 _captured.Add(capturedPart);
             }
+            return capturedPart;
         }
-
+        public void UndoMove(Position origin, Position destiny, Part capturedPart)
+        {
+            Part part = Board.RemovePart(destiny);
+            part.DecreaseNumberOfMoves();
+            if (capturedPart != null)
+            {
+                Board.PutPart(capturedPart, destiny);
+                _captured.Remove(capturedPart);
+            }
+            Board.PutPart(part, origin);
+        }
         public void Play(Position origin, Position destiny)
         {
-            PerformMovement(origin, destiny);
-            ChangePlayer();
+            Part capturedPart = PerformMovement(origin, destiny);
+            if (IsInCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destiny, capturedPart);
+                throw new ChessBoardException("You cannot put yourself in check");
+            }
+            if (IsInCheck(Adversary(CurrentPlayer)))
+            {
+                Check = true;
+            } else
+            {
+                Check = false;
+            }
             Shift++;
+            ChangePlayer();
         }
         public void ValidateOriginPosition(Position position)
         {
@@ -96,6 +121,45 @@ namespace ChessGame.ChessLayer
             }
             partsTemporary.ExceptWith(CapturedParts(color));
             return partsTemporary;
+        }
+        private Color Adversary(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+        private Part King(Color color)
+        {
+            foreach(Part part in InGameParts(color))
+            {
+                if (part is King)
+                {
+                    return part;
+                }
+            }
+            return null;
+        }
+        public bool IsInCheck(Color color)
+        {
+            Part king = King(color);
+            if (king == null)
+            {
+                throw new ChessBoardException($"There is no {color} king on the board");
+            }
+            foreach (Part part in InGameParts(Adversary(color)))
+            {
+                bool[,] matrix = part.PossibleMoves();
+                if (matrix[king.PositionPart.Row, king.PositionPart.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public void PutNewParts(char column, int row, Part part)
         {

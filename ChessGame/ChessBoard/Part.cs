@@ -20,6 +20,10 @@ namespace ChessGame.ChessBoard
         {
             AmountMove++;
         }
+        public void DecreaseNumberOfMoves()
+        {
+            AmountMove--;
+        }
         public bool TherePossibilityToMove() 
         {
             bool[,] possibility = PossibleMoves();
